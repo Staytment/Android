@@ -1,0 +1,7 @@
+.gradle
+/local.properties
+/.idea/workspace.xml
+.DS_Store
+build/
+*.apk
+App/src/main/res/values/api_keys.xml

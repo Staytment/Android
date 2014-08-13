@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Login Screen -->
+    <string name="btn_login_google">Mit Google einloggen</string>
+    <string name="btn_login_facebook">Mit Facebook einloggen</string>
+    <string name="btn_login_twitter">Mit Twitter einloggen</string>
+    <string name="btn_login_without">Ohne einloggen starten</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item>Home</item>
+        <item>Einstellungen</item>
+    </string-array>
+
+    <!-- Map Screen -->
+
+    <!-- Settings Screen -->
+    <string name="head_settings">Einstellungen</string>
+    <string name="btn_logout">Ausloggen</string>
+    <string name="btn_about">Über Staytment...</string>
+
+    <!-- Toasts -->
+    <string name="logged_in_successfully">Erfolgreich eingeloggt</string>
+    <string name="no_connectivity">Keine Internetverbindung</string>
+
+</resources>
