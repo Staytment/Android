@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- DONT'T CHECK IN ON GIT WITH API-KEY -->
 
-    <string name="gmap_v2_api_key">NO_KEY</string>
+    <!-- Google Map v2 API Key -->
+    <string name="gmap_v2_api_key" translatable="false">NO_KEY</string>
 
 </resources>

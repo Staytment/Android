@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
     tools:context="de.trottl.staytment.SettingsFragment">
 
     <TextView
@@ -31,7 +30,10 @@
             android:background="@color/list_background"
             android:gravity="center"
             android:paddingBottom="10dp"
+            android:paddingEnd="10dp"
+            android:paddingLeft="0dp"
             android:paddingRight="10dp"
+            android:paddingStart="0dp"
             android:paddingTop="10dp"
             android:text="@string/btn_logout"
             android:textColor="#ffffffff"
@@ -47,7 +49,10 @@
             android:background="@color/list_background"
             android:gravity="center"
             android:paddingBottom="10dp"
+            android:paddingEnd="10dp"
+            android:paddingLeft="0dp"
             android:paddingRight="10dp"
+            android:paddingStart="0dp"
             android:paddingTop="10dp"
             android:text="@string/btn_about"
             android:textColor="#ffffffff"

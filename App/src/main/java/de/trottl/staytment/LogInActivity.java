@@ -6,11 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
@@ -28,8 +31,14 @@ public class LogInActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        pDialog = new ProgressDialog(this, R.style.DialogTheme);
+        pDialog.setMessage(getString(R.string.pdialog_text));
+        pDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        pDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         SharedPreferences shPref = getSharedPreferences("Staytment", Context.MODE_PRIVATE);
         String Auth_Email = shPref.getString("Email", null);
+        String Auth_Name = shPref.getString("Name", null);
 
         if (!checkOnlineState()) {
             CustomToast customToast = new CustomToast(getApplicationContext(), getString(R.string.no_connectivity));
@@ -40,7 +49,7 @@ public class LogInActivity extends Activity {
             Intent MainAct = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(MainAct);
 
-            CustomToast cToast = new CustomToast(getApplicationContext(), getString(R.string.logged_in_successfully));
+            CustomToast cToast = new CustomToast(getApplicationContext(), String.format(getString(R.string.login_back_name), Auth_Name));
             cToast.show();
 
             finish();
@@ -116,7 +125,7 @@ public class LogInActivity extends Activity {
         btnLogIn_fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pDialog = ProgressDialog.show(LogInActivity.this, "", "Please Wait...");
+                pDialog.show();
                 webview.loadUrl("http://api.staytment.com/auth/facebook");
             }
         });
@@ -124,7 +133,7 @@ public class LogInActivity extends Activity {
         btnLogin_gp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pDialog = ProgressDialog.show(LogInActivity.this, "", "Please Wait...");
+                pDialog.show();
                 webview.loadUrl("http://api.staytment.com/auth/google");
             }
         });

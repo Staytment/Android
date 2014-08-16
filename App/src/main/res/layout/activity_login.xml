@@ -3,7 +3,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
     android:orientation="vertical">
 
     <LinearLayout
@@ -22,8 +21,10 @@
             android:layout_margin="2dp"
             android:background="@drawable/layers_gp_button_bg"
             android:paddingBottom="10dp"
+            android:paddingEnd="10dp"
             android:paddingLeft="30dp"
             android:paddingRight="10dp"
+            android:paddingStart="30dp"
             android:paddingTop="10dp"
             android:text="@string/btn_login_google" />
 
@@ -35,8 +36,10 @@
             android:layout_margin="2dp"
             android:background="@drawable/layers_fb_button_bg"
             android:paddingBottom="10dp"
+            android:paddingEnd="10dp"
             android:paddingLeft="30dp"
             android:paddingRight="10dp"
+            android:paddingStart="30dp"
             android:paddingTop="10dp"
             android:text="@string/btn_login_facebook" />
 
@@ -49,8 +52,10 @@
             android:background="@drawable/layers_tw_button_bg"
             android:enabled="false"
             android:paddingBottom="10dp"
+            android:paddingEnd="10dp"
             android:paddingLeft="30dp"
             android:paddingRight="10dp"
+            android:paddingStart="30dp"
             android:paddingTop="10dp"
             android:text="@string/btn_login_twitter"
             android:visibility="gone" />
@@ -63,8 +68,10 @@
             android:layout_margin="2dp"
             android:background="#ff2c8021"
             android:paddingBottom="10dp"
+            android:paddingEnd="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="10dp"
+            android:paddingStart="30dp"
             android:paddingTop="8dp"
             android:text="@string/btn_login_without" />
 
@@ -74,7 +81,7 @@
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

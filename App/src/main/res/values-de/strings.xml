@@ -7,6 +7,13 @@
     <string name="btn_login_twitter">Mit Twitter einloggen</string>
     <string name="btn_login_without">Ohne einloggen starten</string>
 
+    <string name="login_back_name">Willkommen zurück %1$s</string>
+    <string name="pdialog_text">Bitte warten&#8230;</string>
+
+    <!-- Content description -->
+    <string name="action_settings">Einstellungen</string>
+    <string name="err">Fehler beim Erstellen eines Fragments</string>
+
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item>Home</item>
@@ -18,7 +25,7 @@
     <!-- Settings Screen -->
     <string name="head_settings">Einstellungen</string>
     <string name="btn_logout">Ausloggen</string>
-    <string name="btn_about">Über Staytment...</string>
+    <string name="btn_about">Über Staytment&#8230;</string>
 
     <!-- Toasts -->
     <string name="logged_in_successfully">Erfolgreich eingeloggt</string>

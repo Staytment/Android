@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +35,7 @@ public class CustomToast {
 
     void createToast() {
         LayoutInflater inflater = LayoutInflater.from(this.context);
-        this.view = inflater.inflate(R.layout.custom_toast, null);
+        this.view = inflater.inflate(R.layout.custom_toast, new LinearLayout(context), false);
 
         TextView txt = (TextView) this.view.findViewById(R.id.toast_text);
         txt.setText(this.toastText);

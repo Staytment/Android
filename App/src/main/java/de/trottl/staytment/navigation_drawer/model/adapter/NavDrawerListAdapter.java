@@ -14,11 +14,6 @@ import java.util.ArrayList;
 import de.trottl.staytment.R;
 import de.trottl.staytment.navigation_drawer.model.item.NavDrawerItem;
 
-/**
- * @author lmatzen
- *         <p/>
- *         TODO brauchen unterschiedliche items verschiedene adapter?
- */
 public class NavDrawerListAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<NavDrawerItem> navDrawerItemList;
@@ -48,7 +43,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.drawer_list_item, null);
+            convertView = mInflater.inflate(R.layout.drawer_list_item, parent, false);
         }
 
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
