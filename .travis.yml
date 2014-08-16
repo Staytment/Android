@@ -13,10 +13,10 @@ android:
     - android-19
 
     # Additional components
-    - extra-google-google_play_services:5.0.89
-    #- extra-google-m2repository
-    #- extra-android-m2repository
-    #- addon-google_apis-google-19
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - addon-google_apis-google-19
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
@@ -25,3 +25,5 @@ android:
 
 before_install:
  - chmod +x gradlew
+ - echo yes | android update sdk --filter platform-tools --no-ui --force > /dev/null
+ - echo yes | android update sdk --filter extra-google-google_play_services --no-ui --force > /dev/null
