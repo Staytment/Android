@@ -4,6 +4,7 @@ jdk:
 install:
     - sudo apt-get update
     - sudo apt-get install -u lib32stdc++6 lib32z1
+    - sudo chmod +x ./gradlew
     - ./gradlew clean assemble
 before_script:
     - mkdir -p shippable/testresults
