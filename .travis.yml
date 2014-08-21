@@ -27,3 +27,5 @@ before_install:
  - chmod +x gradlew
  - echo yes | android update sdk --filter platform-tools --no-ui --force > /dev/null
  - echo yes | android update sdk --filter extra-google-google_play_services --no-ui --force > /dev/null
+
+script: ./gradlew check
