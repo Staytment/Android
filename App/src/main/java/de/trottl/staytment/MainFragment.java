@@ -1,6 +1,8 @@
 package de.trottl.staytment;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,9 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,6 +22,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONObject;
 
 import de.trottl.staytment.volley.VolleyController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainFragment extends Fragment {
 
@@ -86,7 +89,6 @@ public class MainFragment extends Fragment {
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                //TODO implement input for text pictures etc.
                 addMarker(latLng, "luQx", "Hello Marker!");
             }
         });
@@ -94,7 +96,6 @@ public class MainFragment extends Fragment {
         gMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
-                currentCameraZoomLevel = cameraPosition.zoom;
                 cameraLatLang = cameraPosition.target;
 
                 updateMarker();
@@ -116,9 +117,9 @@ public class MainFragment extends Fragment {
 
         double lat = cameraLatLang.latitude;
         double lon = cameraLatLang.longitude;
-        int zoom = (int) currentCameraZoomLevel;
+        int distance = 100000;
 
-        url = String.format(url, lon, lat, zoom);
+        url = String.format(url, lon, lat, distance);
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -128,6 +129,10 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
 //					TODO renderMarker(getDataXYZ(response));
+						for (int i = 0; i < 30; i++)
+						{
+							Log.d("---------------", "---------------");
+						}
 
                         Log.d("response", response.toString());
                         Log.d("response", response.toString());
@@ -174,9 +179,43 @@ public class MainFragment extends Fragment {
      * @param userName
      * @param message
      */
-    public void addMarker(LatLng latLng, String userName, String message) {
+    public void addMarker(final LatLng latLng, final String userName, final String message) {
         //TODO implement custom marker...
-        MarkerOptions marker = new MarkerOptions().position(latLng).title(userName + ": " + message);
-        gMap.addMarker(marker);
+		final String TAG = "post_marker";
+		SharedPreferences shPref = getActivity().getSharedPreferences("Staytment", Context.MODE_PRIVATE);
+		String url = "http://api.staytment.com:80/posts/?api_key=" + shPref.getString("Apikey", null);
+
+		JsonObjectRequest jsonObjectRequest =
+			new JsonObjectRequest(
+				Request.Method.POST,
+				url,
+				null,
+				new Response.Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response)
+					{
+						MarkerOptions marker = new MarkerOptions().position(latLng).title(userName + ": " + message);
+						gMap.addMarker(marker);
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error)
+					{
+						VolleyLog.d("exception:", error.getMessage());
+					}
+				}) {
+
+				@Override
+				protected Map<String, String> getParams() throws AuthFailureError {
+					Map<String, String> params = new HashMap<>();
+					params.put("coordinates", latLng.toString());
+					params.put("message", "Hello SERVAR!");
+
+					return params;
+				}
+			};
+
+		VolleyController.getInstance().addToRequestQueue(jsonObjectRequest , TAG);
     }
 }
