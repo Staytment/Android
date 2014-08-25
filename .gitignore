@@ -5,3 +5,5 @@
 build/
 *.apk
 App/src/main/res/values/api_keys.xml
+.floo
+.flooignore

@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import de.trottl.staytment.volley.VolleyController;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class MainFragment extends Fragment {
@@ -119,7 +120,7 @@ public class MainFragment extends Fragment {
         double lon = cameraLatLang.longitude;
         int distance = 100000;
 
-        url = String.format(url, lon, lat, distance);
+        url = String.format(Locale.US, url, lon, lat, distance);
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -128,20 +129,6 @@ public class MainFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-//					TODO renderMarker(getDataXYZ(response));
-						for (int i = 0; i < 30; i++)
-						{
-							Log.d("---------------", "---------------");
-						}
-
-                        Log.d("response", response.toString());
-                        Log.d("response", response.toString());
-                        Log.d("response", response.toString());
-                        Log.d("response", response.toString());
-                        Log.d("response", response.toString());
-                        Log.d("response", response.toString());
-                        Log.d("response", response.toString());
-                        Log.d("response", response.toString());
                         Log.d("response", response.toString());
                     }
                 },
@@ -183,13 +170,24 @@ public class MainFragment extends Fragment {
         //TODO implement custom marker...
 		final String TAG = "post_marker";
 		SharedPreferences shPref = getActivity().getSharedPreferences("Staytment", Context.MODE_PRIVATE);
-		String url = "http://api.staytment.com:80/posts/?api_key=" + shPref.getString("Apikey", null);
+        String apiKey = shPref.getString("Apikey", null);
+		String url = "http://api.staytment.com:80/posts/?api_key=%s";
+        if(apiKey == null)
+            return;
+
+        url = String.format(url, apiKey);
+        Map<String, Object> params = new HashMap<>();
+
+        double[] coords = new double[] {latLng.longitude, latLng.latitude};
+        params.put("coordinates", (Object)coords);
+        params.put("message", "Hello SERVAR!");
+        JSONObject jsnobj = new JSONObject(params);
 
 		JsonObjectRequest jsonObjectRequest =
 			new JsonObjectRequest(
 				Request.Method.POST,
 				url,
-				null,
+				jsnobj,
 				new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response)
@@ -205,15 +203,6 @@ public class MainFragment extends Fragment {
 						VolleyLog.d("exception:", error.getMessage());
 					}
 				}) {
-
-				@Override
-				protected Map<String, String> getParams() throws AuthFailureError {
-					Map<String, String> params = new HashMap<>();
-					params.put("coordinates", latLng.toString());
-					params.put("message", "Hello SERVAR!");
-
-					return params;
-				}
 			};
 
 		VolleyController.getInstance().addToRequestQueue(jsonObjectRequest , TAG);

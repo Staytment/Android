@@ -24,7 +24,7 @@ public class JavaScriptInstance {
                     json.optString("email"),
                     json.optString("name"),
                     json.optString("picture"),
-                    json.optString("apikey"));
+                    json.optString("apiKey"));
 
             Log.i("JSON", "Email: " + json.optString("email"));
         } catch (Throwable t) {
