@@ -58,6 +58,46 @@
             android:textColor="#ffffffff"
             android:textSize="20sp" />
 
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:text="Debugging settings"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="10pt"
+                    />
+
+            </TableRow>
+            <TableRow>
+
+                <TextView
+                    android:text="Map loading distance (meter):"
+                    android:textSize="10pt"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:ems="5"
+                    android:id="@+id/txt_distance"
+                    android:layout_column="1"
+                    android:maxEms="5"
+                    android:text="2000"
+                    />
+
+
+            </TableRow>
+
+            </TableLayout>
+
     </LinearLayout>
 
 </FrameLayout>

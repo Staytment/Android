@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.*;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,25 +24,31 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONObject;
 
-import de.trottl.staytment.volley.VolleyController;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import de.trottl.staytment.volley.VolleyController;
+
 public class MainFragment extends Fragment {
 
+    SharedPreferences shPref_settings;
     private GoogleMap gMap;
     private Location myLocation;
     private View view;
     private float currentCameraZoomLevel;
     private LatLng cameraLatLang;
+    //SharedPreferences.Editor editor;
+    //final SharedPreferences shPref_settings = getActivity().getSharedPreferences("Staytment_Settings", Context.MODE_PRIVATE);
+    //final SharedPreferences.Editor editor = shPref_settings.edit();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
         initializeMap();
+
+        shPref_settings = getActivity().getSharedPreferences("Staytment_Settings", Context.MODE_PRIVATE);
 
         return view;
     }
@@ -118,7 +127,9 @@ public class MainFragment extends Fragment {
 
         double lat = cameraLatLang.latitude;
         double lon = cameraLatLang.longitude;
-        int distance = 100000;
+        int distance = shPref_settings.getInt("map_load_distance", 5000);
+
+        Log.i("Staytment_MAP", "Distance: " + String.valueOf(distance) + "meters");
 
         url = String.format(Locale.US, url, lon, lat, distance);
 
@@ -168,43 +179,41 @@ public class MainFragment extends Fragment {
      */
     public void addMarker(final LatLng latLng, final String userName, final String message) {
         //TODO implement custom marker...
-		final String TAG = "post_marker";
-		SharedPreferences shPref = getActivity().getSharedPreferences("Staytment", Context.MODE_PRIVATE);
+        final String TAG = "post_marker";
+        SharedPreferences shPref = getActivity().getSharedPreferences("Staytment", Context.MODE_PRIVATE);
         String apiKey = shPref.getString("Apikey", null);
-		String url = "http://api.staytment.com:80/posts/?api_key=%s";
-        if(apiKey == null)
+        String url = "http://api.staytment.com:80/posts/?api_key=%s";
+        if (apiKey == null)
             return;
 
         url = String.format(url, apiKey);
         Map<String, Object> params = new HashMap<>();
 
-        double[] coords = new double[] {latLng.longitude, latLng.latitude};
-        params.put("coordinates", (Object)coords);
+        double[] coords = new double[]{latLng.longitude, latLng.latitude};
+        params.put("coordinates", (Object) coords);
         params.put("message", "Hello SERVAR!");
         JSONObject jsnobj = new JSONObject(params);
 
-		JsonObjectRequest jsonObjectRequest =
-			new JsonObjectRequest(
-				Request.Method.POST,
-				url,
-				jsnobj,
-				new Response.Listener<JSONObject>() {
-					@Override
-					public void onResponse(JSONObject response)
-					{
-						MarkerOptions marker = new MarkerOptions().position(latLng).title(userName + ": " + message);
-						gMap.addMarker(marker);
-					}
-				},
-				new Response.ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error)
-					{
-						VolleyLog.d("exception:", error.getMessage());
-					}
-				}) {
-			};
+        JsonObjectRequest jsonObjectRequest =
+                new JsonObjectRequest(
+                        Request.Method.POST,
+                        url,
+                        jsnobj,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                MarkerOptions marker = new MarkerOptions().position(latLng).title(userName + ": " + message);
+                                gMap.addMarker(marker);
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                VolleyLog.d("exception:", error.getMessage());
+                            }
+                        }) {
+                };
 
-		VolleyController.getInstance().addToRequestQueue(jsonObjectRequest , TAG);
+        VolleyController.getInstance().addToRequestQueue(jsonObjectRequest, TAG);
     }
 }

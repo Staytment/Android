@@ -11,7 +11,7 @@ public class VolleyController extends Application {
     public static final String TAG = VolleyController.class
             .getSimpleName();
     private static VolleyController mInstance;
-//	private ImageLoader mImageLoader;
+    //	private ImageLoader mImageLoader;
     private RequestQueue mRequestQueue;
 
     public static synchronized VolleyController getInstance() {
