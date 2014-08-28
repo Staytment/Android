@@ -15,6 +15,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.cocoahero.android.geojson.Feature;
+import com.cocoahero.android.geojson.FeatureCollection;
+import com.cocoahero.android.geojson.GeoJSON;
+import com.cocoahero.android.geojson.Position;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -24,7 +28,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -33,14 +39,12 @@ import de.trottl.staytment.volley.VolleyController;
 public class MainFragment extends Fragment {
 
     SharedPreferences shPref_settings;
+    List<postMarker> listMarker;
     private GoogleMap gMap;
     private Location myLocation;
     private View view;
     private float currentCameraZoomLevel;
     private LatLng cameraLatLang;
-    //SharedPreferences.Editor editor;
-    //final SharedPreferences shPref_settings = getActivity().getSharedPreferences("Staytment_Settings", Context.MODE_PRIVATE);
-    //final SharedPreferences.Editor editor = shPref_settings.edit();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +53,7 @@ public class MainFragment extends Fragment {
         initializeMap();
 
         shPref_settings = getActivity().getSharedPreferences("Staytment_Settings", Context.MODE_PRIVATE);
+        listMarker = new ArrayList<postMarker>();
 
         return view;
     }
@@ -126,7 +131,7 @@ public class MainFragment extends Fragment {
         String url = "http://api.staytment.com:80/posts?long=%f&lat=%f&distance=%d&filter=point";
 
         double lat = cameraLatLang.latitude;
-        double lon = cameraLatLang.longitude;
+        final double lon = cameraLatLang.longitude;
         int distance = shPref_settings.getInt("map_load_distance", 5000);
 
         Log.i("Staytment_MAP", "Distance: " + String.valueOf(distance) + "meters");
@@ -140,7 +145,37 @@ public class MainFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("response", response.toString());
+                        try {
+                            FeatureCollection featureCollection = (FeatureCollection) GeoJSON.parse(response.toString());
+                            List<Feature> list_feature = featureCollection.getFeatures();
+                            com.cocoahero.android.geojson.Point point;
+                            Position position;
+                            JSONObject properties;
+                            String username, message, messageID;
+                            postMarker pMarker;
+
+                            for (Feature feature : list_feature) {
+                                point = (com.cocoahero.android.geojson.Point) feature.getGeometry();
+                                position = point.getPosition();
+                                properties = feature.getProperties();
+                                username = properties.getJSONObject("user").optString("name");
+                                message = properties.optString("message");
+                                messageID = feature.toJSON().optString("_id");
+
+                                pMarker = new postMarker(position.getLongitude(),
+                                        position.getLatitude(),
+                                        message,
+                                        username,
+                                        messageID);
+
+                                if (!listMarker.contains(pMarker)) {
+                                    listMarker.add(pMarker);
+                                    gMap.addMarker(new MarkerOptions().title(username).snippet(message).position(new LatLng(position.getLatitude(), position.getLongitude())));
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.e("Staytment_Error", e.toString());
+                        }
                     }
                 },
                 new Response.ErrorListener() {
