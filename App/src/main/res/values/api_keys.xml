@@ -3,6 +3,6 @@
     <!-- DONT'T CHECK IN ON GIT WITH API-KEY -->
 
     <!-- Google Map v2 API Key -->
-    <string name="gmap_v2_api_key" translatable="false">AIzaSyDT3qLmZKe6NOPoP6Ao-Cvh4M1RYJybOdA</string>
+    <string name="gmap_v2_api_key" translatable="false">NO_KEY</string>
 
 </resources>
