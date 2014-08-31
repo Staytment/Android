@@ -68,35 +68,33 @@
                 android:gravity="center_horizontal">
 
                 <TextView
-                    android:text="Debugging settings"
                     android:gravity="center"
-                    android:textStyle="bold"
+                    android:text="@string/debugging_header"
                     android:textSize="20sp"
-                    />
+                    android:textStyle="bold" />
 
             </TableRow>
+
             <TableRow>
 
                 <TextView
-                    android:text="Map loading distance (meter):"
-                    android:textSize="17sp"
-                    />
+                    android:text="@string/map_loading_distance"
+                    android:textSize="17sp" />
 
                 <EditText
+                    android:id="@+id/txt_distance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:ems="5"
-                    android:id="@+id/txt_distance"
                     android:layout_column="1"
+                    android:ems="5"
+                    android:inputType="numberDecimal"
                     android:maxEms="5"
-                    android:text="2000"
-                    />
+                    android:text="@string/map_loading_distance_default_val" />
 
 
             </TableRow>
 
-            </TableLayout>
+        </TableLayout>
 
     </LinearLayout>
 

@@ -33,6 +33,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:5.0.89'
     compile 'com.android.support:support-v4:20.0.0'
     //noinspection GradleDynamicVersion
-    compile 'com.cocoahero.android:geojson:1.0.+@aar'
+    //compile 'com.cocoahero.android:geojson:1.0.+@aar'
     compile 'com.mcxiaoke.volley:library:1.0.6'
+    compile project(':androidgeojson')
 }

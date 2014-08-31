@@ -32,6 +32,10 @@
     <string name="btn_logout">Logout</string>
     <string name="btn_about">About Staytment&#8230;</string>
 
+    <string name="map_loading_distance">Map loading distance (meter):</string>
+    <string name="map_loading_distance_default_val">2000</string>
+    <string name="debugging_header">Debugging settings</string>
+
     <!-- Toasts -->
     <string name="logged_in_successfully">Logged in successfully</string>
     <string name="no_connectivity">No internet connection</string>

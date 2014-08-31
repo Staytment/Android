@@ -38,8 +38,9 @@ import de.trottl.staytment.volley.VolleyController;
 
 public class MainFragment extends Fragment {
 
-    SharedPreferences shPref_settings;
+    SharedPreferences shPref_settings, shPref;
     List<postMarker> listMarker;
+    HashMap<postMarker, Boolean> markerList;
     private GoogleMap gMap;
     private Location myLocation;
     private View view;
@@ -53,7 +54,9 @@ public class MainFragment extends Fragment {
         initializeMap();
 
         shPref_settings = getActivity().getSharedPreferences("Staytment_Settings", Context.MODE_PRIVATE);
+        shPref = getActivity().getSharedPreferences("Staytment", Context.MODE_PRIVATE);
         listMarker = new ArrayList<postMarker>();
+        markerList = new HashMap<postMarker, Boolean>();
 
         return view;
     }
@@ -93,10 +96,10 @@ public class MainFragment extends Fragment {
             // check if map is created successfully or not
             if (gMap == null) {
                 Log.e("MAP", "Can't create map");
+            } else {
+                gMap.setMyLocationEnabled(true);
+                initMapEventHandler();
             }
-
-            gMap.setMyLocationEnabled(true);
-            initMapEventHandler();
         }
     }
 
@@ -104,7 +107,9 @@ public class MainFragment extends Fragment {
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                addMarker(latLng, "luQx", "Hello Marker!");
+                if (shPref.getString("Email", null) != null) {
+                    addMarker(latLng, "luQx", "Hello Marker!");
+                }
             }
         });
 
@@ -123,7 +128,14 @@ public class MainFragment extends Fragment {
     }
 
     private void renderMarker() {
-
+        if (gMap != null) {
+            for (postMarker pMarker : listMarker) {
+                if (!pMarker.isShown()) {
+                    gMap.addMarker(new MarkerOptions().title(pMarker.getName()).snippet(pMarker.getMessage()).position(new LatLng(pMarker.getLatitude(), pMarker.getLongitude())));
+                    pMarker.setShown(true);
+                }
+            }
+        }
     }
 
     private void getPosts() {
@@ -134,7 +146,7 @@ public class MainFragment extends Fragment {
         final double lon = cameraLatLang.longitude;
         int distance = shPref_settings.getInt("map_load_distance", 5000);
 
-        Log.i("Staytment_MAP", "Distance: " + String.valueOf(distance) + "meters");
+        //Log.i("Staytment_MAP", "Distance: " + String.valueOf(distance) + "meters");
 
         url = String.format(Locale.US, url, lon, lat, distance);
 
@@ -145,37 +157,8 @@ public class MainFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            FeatureCollection featureCollection = (FeatureCollection) GeoJSON.parse(response.toString());
-                            List<Feature> list_feature = featureCollection.getFeatures();
-                            com.cocoahero.android.geojson.Point point;
-                            Position position;
-                            JSONObject properties;
-                            String username, message, messageID;
-                            postMarker pMarker;
-
-                            for (Feature feature : list_feature) {
-                                point = (com.cocoahero.android.geojson.Point) feature.getGeometry();
-                                position = point.getPosition();
-                                properties = feature.getProperties();
-                                username = properties.getJSONObject("user").optString("name");
-                                message = properties.optString("message");
-                                messageID = feature.toJSON().optString("_id");
-
-                                pMarker = new postMarker(position.getLongitude(),
-                                        position.getLatitude(),
-                                        message,
-                                        username,
-                                        messageID);
-
-                                if (!listMarker.contains(pMarker)) {
-                                    listMarker.add(pMarker);
-                                    gMap.addMarker(new MarkerOptions().title(username).snippet(message).position(new LatLng(position.getLatitude(), position.getLongitude())));
-                                }
-                            }
-                        } catch (Exception e) {
-                            Log.e("Staytment_Error", e.toString());
-                        }
+                        parseResult(response);
+                        renderMarker();
                     }
                 },
                 new Response.ErrorListener() {
@@ -185,6 +168,43 @@ public class MainFragment extends Fragment {
                 });
 
         VolleyController.getInstance().addToRequestQueue(request, requestTag);
+    }
+
+    private boolean parseResult(JSONObject response) {
+        try {
+            FeatureCollection featureCollection = (FeatureCollection) GeoJSON.parse(response.toString());
+            List<Feature> list_feature = featureCollection.getFeatures();
+            com.cocoahero.android.geojson.Point point;
+            Position position;
+            JSONObject properties;
+            String username, message, messageID;
+            postMarker pMarker;
+
+            for (Feature feature : list_feature) {
+                point = (com.cocoahero.android.geojson.Point) feature.getGeometry();
+                position = point.getPosition();
+                properties = feature.getProperties();
+                username = properties.getJSONObject("user").optString("name");
+                message = properties.optString("message");
+                messageID = feature.getIdentifier();
+
+                pMarker = new postMarker(position.getLongitude(),
+                        position.getLatitude(),
+                        message,
+                        username,
+                        messageID);
+                pMarker.setShown(false);
+
+                if (!listMarker.contains(pMarker)) {
+                    listMarker.add(pMarker);
+                }
+            }
+            //Log.i("Staytment_MAP", "Count marker: " + listMarker.size());
+            return true;
+        } catch (Exception e) {
+            Log.e("Staytment_Error", e.toString());
+            return false;
+        }
     }
 
     private void centerMyLocation() {
@@ -215,7 +235,6 @@ public class MainFragment extends Fragment {
     public void addMarker(final LatLng latLng, final String userName, final String message) {
         //TODO implement custom marker...
         final String TAG = "post_marker";
-        SharedPreferences shPref = getActivity().getSharedPreferences("Staytment", Context.MODE_PRIVATE);
         String apiKey = shPref.getString("Apikey", null);
         String url = "http://api.staytment.com:80/posts/?api_key=%s";
         if (apiKey == null)
@@ -226,19 +245,18 @@ public class MainFragment extends Fragment {
 
         double[] coords = new double[]{latLng.longitude, latLng.latitude};
         params.put("coordinates", (Object) coords);
-        params.put("message", "Hello SERVAR!");
-        JSONObject jsnobj = new JSONObject(params);
+        params.put("message", message);
+        JSONObject jsonObject = new JSONObject(params);
 
         JsonObjectRequest jsonObjectRequest =
                 new JsonObjectRequest(
                         Request.Method.POST,
                         url,
-                        jsnobj,
+                        jsonObject,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                MarkerOptions marker = new MarkerOptions().position(latLng).title(userName + ": " + message);
-                                gMap.addMarker(marker);
+                                gMap.addMarker(new MarkerOptions().title(userName).snippet(message).position(latLng));
                             }
                         },
                         new Response.ErrorListener() {

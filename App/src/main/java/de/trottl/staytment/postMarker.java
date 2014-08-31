@@ -8,6 +8,8 @@ public class postMarker {
     private String message, name, id;
     private LatLng latLng;
 
+    private boolean isShown;
+
     public postMarker(double longitude, double latitude, String message, String name, String id) {
         this.longitude = longitude;
         this.latitude = latitude;
@@ -34,6 +36,19 @@ public class postMarker {
     public postMarker() {
     }
 
+    @Override
+    public boolean equals(Object o) {
+
+        boolean bool = false;
+
+        if (o != null && o instanceof postMarker) {
+            bool = ((postMarker) o).getId().equals(this.getId());
+        }
+
+        return bool;
+        //return super.equals(o);
+    }
+
     public LatLng getLatLng() {
         return latLng;
     }
@@ -43,7 +58,6 @@ public class postMarker {
         this.longitude = latLng.longitude;
         this.latitude = latLng.latitude;
     }
-
 
     public double getLongitude() {
         return longitude;
@@ -85,4 +99,11 @@ public class postMarker {
         this.id = id;
     }
 
+    public boolean isShown() {
+        return isShown;
+    }
+
+    public void setShown(boolean isShown) {
+        this.isShown = isShown;
+    }
 }
