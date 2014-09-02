@@ -20,6 +20,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class LogInActivity extends Activity {
     Button btnLogIn_wo, btnLogIn_fb, btnLogin_gp, btnLogin_tw;
@@ -30,6 +31,17 @@ public class LogInActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        String versionname;
+
+        try {
+            versionname = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
+        } catch (Exception e) {
+            versionname = "n.a.";
+        }
+
+        TextView textView = (TextView) findViewById(R.id.version_cpyright_txt);
+        textView.setText(String.format(getString(R.string.versioning_copyright), versionname));
 
         pDialog = new ProgressDialog(this, R.style.DialogTheme);
         pDialog.setMessage(getString(R.string.pdialog_text));

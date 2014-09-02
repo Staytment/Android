@@ -30,5 +30,7 @@
     <!-- Toasts -->
     <string name="logged_in_successfully">Erfolgreich eingeloggt</string>
     <string name="no_connectivity">Keine Internetverbindung</string>
+    <string name="debugging_header">Debugeinstellungen</string>
+    <string name="map_loading_distance">Ladeumkreis Marker (m):</string>
 
 </resources>

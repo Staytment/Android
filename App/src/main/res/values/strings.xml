@@ -16,6 +16,8 @@
     <string name="btn_login_twitter">Sign in with Twitter</string>
     <string name="btn_login_without">Start without sign in</string>
 
+    <string name="versioning_copyright" translatable="false">Version: %s Copyright 2014&#169;</string>
+
     <string name="login_back_name">Welcome back %1$s</string>
     <string name="pdialog_text">Please wait&#8230;</string>
 
@@ -25,6 +27,10 @@
         <item>Settings</item>
     </string-array>
 
+    <!-- Action Bar -->
+    <string name="add_marker_btn" translatable="false">+</string>
+    <string name="open_nav_drawer_btn" translatable="false">Menu</string>
+
     <!-- Map Screen -->
 
     <!-- Settings Screen -->
@@ -33,7 +39,7 @@
     <string name="btn_about">About Staytment&#8230;</string>
 
     <string name="map_loading_distance">Map loading distance (meter):</string>
-    <string name="map_loading_distance_default_val">2000</string>
+    <string name="map_loading_distance_default_val" translatable="false">2000</string>
     <string name="debugging_header">Debugging settings</string>
 
     <!-- Toasts -->

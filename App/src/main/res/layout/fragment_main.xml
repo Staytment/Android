@@ -5,11 +5,52 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.MapFragment"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="40dp"
+        android:background="@drawable/linearlayout_bg"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/nav_drawer_open"
+            style="style=@style/LoginButton"
+            android:layout_width="60dp"
+            android:layout_height="fill_parent"
+            android:background="#123456"
+            android:text="@string/open_nav_drawer_btn"
+            android:textColor="#FFF" />
+
+        <Button
+            android:id="@+id/marker_add"
+            style="style=@style/LoginButton"
+            android:layout_width="50dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="#123456"
+            android:text="@string/add_marker_btn"
+            android:textColor="#FFF" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <include
+            android:id="@+id/overlay_add_marker"
+            layout="@layout/fragment_addmarker"
+            android:layout_width="300dp"
+            android:layout_height="500dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 
 </LinearLayout>
