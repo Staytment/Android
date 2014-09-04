@@ -46,4 +46,16 @@
     <string name="logged_in_successfully">Logged in successfully</string>
     <string name="no_connectivity">No internet connection</string>
 
+    <!-- Add marker fragment -->
+    <string name="add_marker_fragment_header">Add new marker</string>
+    <string name="abort_btn_text">Abort</string>
+    <string name="post_btn_text">Post</string>
+    <string name="add_marker_longitude_txt">Longitude: %s</string>
+    <string name="add_marker_latitude_txt">Latitude: %s</string>
+    <string name="add_marker_username_txt">Username: %s</string>
+    <string name="add_marker_title_txt">Title:</string>
+    <string name="add_marker_title_edit_hint">Set title here</string>
+    <string name="add_marker_text_txt">Text:</string>
+    <string name="add_marker_text_edit_hint">Set text here</string>
+
 </resources>

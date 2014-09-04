@@ -32,22 +32,6 @@ public class LogInActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        String versionname;
-
-        try {
-            versionname = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
-        } catch (Exception e) {
-            versionname = "n.a.";
-        }
-
-        TextView textView = (TextView) findViewById(R.id.version_cpyright_txt);
-        textView.setText(String.format(getString(R.string.versioning_copyright), versionname));
-
-        pDialog = new ProgressDialog(this, R.style.DialogTheme);
-        pDialog.setMessage(getString(R.string.pdialog_text));
-        pDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        pDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         SharedPreferences shPref = getSharedPreferences("Staytment", Context.MODE_PRIVATE);
         String Auth_Email = shPref.getString("Email", null);
         String Auth_Name = shPref.getString("Name", null);
@@ -65,99 +49,115 @@ public class LogInActivity extends Activity {
             cToast.show();
 
             finish();
-        }
+        } else {
+            String versionName;
 
-        webview = (WebView) findViewById(R.id.webview);
-        webview.setWebChromeClient(new WebChromeClient());
-        webview.getSettings().setLoadWithOverviewMode(true);
-        webview.getSettings().setUseWideViewPort(true);
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.addJavascriptInterface(new JavaScriptInstance(this.getApplicationContext()), "HTML");
-
-        CookieSyncManager.createInstance(this);
-        CookieSyncManager.getInstance().startSync();
-        CookieManager.getInstance();
-
-        webview.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.contains("callback?error=")) {
-                    Log.i("oAuth", "Error, access denied");
-                    pDialog.dismiss();
-                }
-
-                return false;
+            try {
+                versionName = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
+            } catch (Exception e) {
+                versionName = "n.a.";
             }
 
-            @Override
-            public void onPageFinished(WebView view, final String url) {
-                if (url.contains("callback?code=")) {
-                    Log.i("Auth", "Call javascript code");
-                    view.loadUrl("javascript:window.HTML.showContent(document.getElementsByTagName('pre')[0].innerHTML)");
-                    pDialog.dismiss();
+            TextView textView = (TextView) findViewById(R.id.version_cpyright_txt);
+            textView.setText(String.format(getString(R.string.versioning_copyright), versionName));
+
+            pDialog = new ProgressDialog(this, R.style.DialogTheme);
+            pDialog.setMessage(getString(R.string.pdialog_text));
+            pDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            pDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            webview = (WebView) findViewById(R.id.webview);
+            webview.setWebChromeClient(new WebChromeClient());
+            webview.getSettings().setLoadWithOverviewMode(true);
+            webview.getSettings().setUseWideViewPort(true);
+            webview.getSettings().setJavaScriptEnabled(true);
+            webview.addJavascriptInterface(new JavaScriptInstance(this.getApplicationContext()), "HTML");
+
+            CookieSyncManager.createInstance(this);
+            CookieSyncManager.getInstance().startSync();
+            CookieManager.getInstance();
+
+            webview.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    if (url.contains("callback?error=")) {
+                        Log.i("oAuth", "Error, access denied");
+                        pDialog.dismiss();
+                    }
+
+                    return false;
+                }
+
+                @Override
+                public void onPageFinished(WebView view, final String url) {
+                    if (url.contains("callback?code=")) {
+                        Log.i("Auth", "Call javascript code");
+                        view.loadUrl("javascript:window.HTML.showContent(document.getElementsByTagName('pre')[0].innerHTML)");
+                        pDialog.dismiss();
+                        Intent MainAct = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(MainAct);
+
+                        CustomToast cToast = new CustomToast(getApplicationContext(), getString(R.string.logged_in_successfully));
+                        cToast.show();
+
+                        finish();
+                    } else if (url.contains("about:blank")) {
+                        Log.i("AboutBlank", "Blank Page was loaded");
+                        pDialog.dismiss();
+                    } else {
+                        Log.i("Auth", "No callback code");
+                        webview.setVisibility(View.VISIBLE);
+                        pDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                    super.onReceivedError(view, errorCode, description, failingUrl);
+                    webview.setVisibility(View.GONE);
+                }
+            });
+
+            btnLogIn_wo = (Button) findViewById(R.id.btn_login_ex);
+            btnLogIn_fb = (Button) findViewById(R.id.btnFb);
+            btnLogin_gp = (Button) findViewById(R.id.btnGplus);
+            btnLogin_tw = (Button) findViewById(R.id.btnTw);
+
+            btnLogIn_wo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent MainAct = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(MainAct);
 
-                    CustomToast cToast = new CustomToast(getApplicationContext(), getString(R.string.logged_in_successfully));
-                    cToast.show();
-
                     finish();
-                } else if (url.contains("about:blank")) {
-                    Log.i("AboutBlank", "Blank Page was loaded");
-                    pDialog.dismiss();
-                } else {
-                    Log.i("Auth", "No callback code");
-                    webview.setVisibility(View.VISIBLE);
-                    pDialog.dismiss();
                 }
-            }
+            });
 
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                super.onReceivedError(view, errorCode, description, failingUrl);
-                webview.setVisibility(View.GONE);
-            }
-        });
+            btnLogIn_fb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pDialog.show();
+                    webview.loadUrl("http://api.staytment.com/auth/facebook");
+                }
+            });
 
-        btnLogIn_wo = (Button) findViewById(R.id.btn_login_ex);
-        btnLogIn_fb = (Button) findViewById(R.id.btnFb);
-        btnLogin_gp = (Button) findViewById(R.id.btnGplus);
-        btnLogin_tw = (Button) findViewById(R.id.btnTw);
+            btnLogin_gp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pDialog.show();
+                    webview.loadUrl("http://api.staytment.com/auth/google");
+                }
+            });
 
-        btnLogIn_wo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent MainAct = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(MainAct);
-
-                finish();
-            }
-        });
-
-        btnLogIn_fb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pDialog.show();
-                webview.loadUrl("http://api.staytment.com/auth/facebook");
-            }
-        });
-
-        btnLogin_gp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pDialog.show();
-                webview.loadUrl("http://api.staytment.com/auth/google");
-            }
-        });
-
-        btnLogin_tw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Disabled because of no implementation in api
-                //pDialog = ProgressDialog.show(LogInActivity.this, "", "Please Wait...");
-                //webview.loadUrl("http://api.staytment.com/auth/twitter");
-            }
-        });
+            btnLogin_tw.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Disabled because of no implementation in api
+                    //pDialog = ProgressDialog.show(LogInActivity.this, "", "Please Wait...");
+                    //webview.loadUrl("http://api.staytment.com/auth/twitter");
+                }
+            });
+        }
     }
 
     @Override

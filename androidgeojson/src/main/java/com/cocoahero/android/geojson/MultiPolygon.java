@@ -63,13 +63,6 @@ public class MultiPolygon extends Geometry {
         return this.mPolygons;
     }
 
-    public void setPolygons(List<Polygon> polygons) {
-        this.mPolygons.clear();
-        if (polygons != null) {
-            this.mPolygons.addAll(polygons);
-        }
-    }
-
     public void setPolygons(JSONArray polygons) {
         this.mPolygons.clear();
         if (polygons != null) {
@@ -79,6 +72,13 @@ public class MultiPolygon extends Geometry {
                     this.mPolygons.add(new Polygon(polyJSON));
                 }
             }
+        }
+    }
+
+    public void setPolygons(List<Polygon> polygons) {
+        this.mPolygons.clear();
+        if (polygons != null) {
+            this.mPolygons.addAll(polygons);
         }
     }
 

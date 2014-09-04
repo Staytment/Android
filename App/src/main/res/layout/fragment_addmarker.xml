@@ -15,15 +15,105 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Das ist ein Test"
+            android:text="@string/add_marker_fragment_header"
             android:textSize="35sp" />
 
         <View
+            android:id="@+id/add_marker_seperator_1"
             android:layout_width="wrap_content"
             android:layout_height="5dp"
             android:layout_below="@+id/txt_head_add_marker_fragment"
             android:layout_marginBottom="3dp"
             android:background="@drawable/seperator" />
+
+        <TextView
+            android:id="@+id/add_marker_longitude_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_marker_seperator_1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/add_marker_longitude_txt"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/add_marker_latitude_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_marker_longitude_txt"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/add_marker_latitude_txt"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <View
+            android:id="@+id/add_marker_seperator_2"
+            android:layout_width="wrap_content"
+            android:layout_height="5dp"
+            android:layout_below="@+id/add_marker_latitude_txt"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/seperator" />
+
+        <TextView
+            android:id="@+id/add_marker_username_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_marker_seperator_2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/add_marker_username_txt"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/add_marker_title_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_marker_username_txt"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/add_marker_title_txt"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/add_marker_title_edit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_marker_title_txt"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:hint="@string/add_marker_title_edit_hint"
+            android:maxEms="20"
+            android:textColor="#AAFFFF" />
+
+        <TextView
+            android:id="@+id/add_marker_text_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_marker_title_edit"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/add_marker_text_txt"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/add_marker_text_edit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_marker_text_txt"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:hint="@string/add_marker_text_edit_hint"
+            android:maxEms="100"
+            android:textColor="#AAFFFF" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -38,7 +128,8 @@
                 android:layout_height="match_parent"
                 android:layout_toLeftOf="@+id/btn_marker_submit"
                 android:layout_toStartOf="@+id/btn_marker_submit"
-                android:background="#FF0000" />
+                android:background="#FF0000"
+                android:text="@string/abort_btn_text" />
 
             <Button
                 android:id="@+id/btn_marker_submit"
@@ -47,7 +138,8 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:background="#00FF00" />
+                android:background="#00FF00"
+                android:text="@string/post_btn_text" />
 
         </RelativeLayout>
 

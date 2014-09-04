@@ -74,6 +74,13 @@ public class PositionList implements Parcelable {
         return this.mPositions;
     }
 
+    public void setPositions(List<Position> positions) {
+        this.mPositions.clear();
+        if (positions != null) {
+            this.mPositions.addAll(positions);
+        }
+    }
+
     public void setPositions(JSONArray positions) {
         this.mPositions.clear();
         if (positions != null) {
@@ -90,13 +97,6 @@ public class PositionList implements Parcelable {
         this.mPositions.clear();
         if (positions != null) {
             this.mPositions.addAll(positions.mPositions);
-        }
-    }
-
-    public void setPositions(List<Position> positions) {
-        this.mPositions.clear();
-        if (positions != null) {
-            this.mPositions.addAll(positions);
         }
     }
 
