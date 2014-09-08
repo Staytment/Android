@@ -27,9 +27,10 @@
             android:layout_height="fill_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:background="#123456"
+            android:background="#00000000"
             android:text="@string/add_marker_btn"
-            android:textColor="#FFF" />
+            android:textColor="#FFF"
+            android:textSize="35sp" />
 
     </RelativeLayout>
 

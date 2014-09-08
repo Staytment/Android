@@ -32,5 +32,15 @@
     <string name="no_connectivity">Keine Internetverbindung</string>
     <string name="debugging_header">Debugeinstellungen</string>
     <string name="map_loading_distance">Ladeumkreis Marker (m):</string>
+    <string name="abort_btn_text">Abbrechen</string>
+    <string name="add_marker_fragment_header">Marker hinzufügen</string>
+    <string name="add_marker_latitude_txt">Breitengrad: %f</string>
+    <string name="add_marker_longitude_txt">Längengrad: %f</string>
+    <string name="add_marker_text_edit_hint">Nachricht hinzufügen</string>
+    <string name="add_marker_text_txt">Nachricht:</string>
+    <string name="add_marker_title_edit_hint">Titel hinzufügen</string>
+    <string name="add_marker_title_txt">Titel:</string>
+    <string name="add_marker_username_txt">Benutzername: %s</string>
+    <string name="post_btn_text">Senden</string>
 
 </resources>

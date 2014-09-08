@@ -71,6 +71,13 @@ public class Polygon extends Geometry {
         return this.mRings;
     }
 
+    public void setRings(List<Ring> rings) {
+        this.mRings.clear();
+        if (rings != null) {
+            this.mRings.addAll(rings);
+        }
+    }
+
     public void setRings(JSONArray rings) {
         this.mRings.clear();
         if (rings != null) {
@@ -80,13 +87,6 @@ public class Polygon extends Geometry {
                     this.mRings.add(new Ring(ringJSON));
                 }
             }
-        }
-    }
-
-    public void setRings(List<Ring> rings) {
-        this.mRings.clear();
-        if (rings != null) {
-            this.mRings.addAll(rings);
         }
     }
 

@@ -10,16 +10,15 @@
 
     <!-- include from values-en -->
 
+
     <!-- Login Screen -->
     <string name="btn_login_google">Sign in with Google</string>
     <string name="btn_login_facebook">Sign in with Facebook</string>
     <string name="btn_login_twitter">Sign in with Twitter</string>
     <string name="btn_login_without">Start without sign in</string>
-
-    <string name="versioning_copyright" translatable="false">Version: %s Copyright 2014&#169;</string>
-
+    <string name="versioning_copyright" translatable="false">Version: %s Copyright 2014©</string>
     <string name="login_back_name">Welcome back %1$s</string>
-    <string name="pdialog_text">Please wait&#8230;</string>
+    <string name="pdialog_text">Please wait…</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
@@ -33,11 +32,11 @@
 
     <!-- Map Screen -->
 
+
     <!-- Settings Screen -->
     <string name="head_settings">Settings</string>
     <string name="btn_logout">Logout</string>
-    <string name="btn_about">About Staytment&#8230;</string>
-
+    <string name="btn_about">About Staytment…</string>
     <string name="map_loading_distance">Map loading distance (meter):</string>
     <string name="map_loading_distance_default_val" translatable="false">2000</string>
     <string name="debugging_header">Debugging settings</string>
@@ -50,12 +49,13 @@
     <string name="add_marker_fragment_header">Add new marker</string>
     <string name="abort_btn_text">Abort</string>
     <string name="post_btn_text">Post</string>
-    <string name="add_marker_longitude_txt">Longitude: %s</string>
-    <string name="add_marker_latitude_txt">Latitude: %s</string>
+    <string name="add_marker_longitude_txt">Longitude: %f</string>
+    <string name="add_marker_latitude_txt">Latitude: %f</string>
     <string name="add_marker_username_txt">Username: %s</string>
     <string name="add_marker_title_txt">Title:</string>
     <string name="add_marker_title_edit_hint">Set title here</string>
-    <string name="add_marker_text_txt">Text:</string>
-    <string name="add_marker_text_edit_hint">Set text here</string>
+    <string name="add_marker_text_txt">Message:</string>
+    <string name="add_marker_text_edit_hint">Set message here</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

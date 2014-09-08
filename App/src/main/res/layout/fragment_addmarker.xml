@@ -16,15 +16,16 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="@string/add_marker_fragment_header"
+            android:textColor="#FFFFFF"
             android:textSize="35sp" />
 
         <View
             android:id="@+id/add_marker_seperator_1"
             android:layout_width="wrap_content"
-            android:layout_height="5dp"
+            android:layout_height="2dp"
             android:layout_below="@+id/txt_head_add_marker_fragment"
             android:layout_marginBottom="3dp"
-            android:background="@drawable/seperator" />
+            android:background="@drawable/seperator_horizontal" />
 
         <TextView
             android:id="@+id/add_marker_longitude_txt"
@@ -51,10 +52,10 @@
         <View
             android:id="@+id/add_marker_seperator_2"
             android:layout_width="wrap_content"
-            android:layout_height="5dp"
+            android:layout_height="2dp"
             android:layout_below="@+id/add_marker_latitude_txt"
             android:layout_marginBottom="3dp"
-            android:background="@drawable/seperator" />
+            android:background="@drawable/seperator_horizontal" />
 
         <TextView
             android:id="@+id/add_marker_username_txt"
@@ -124,21 +125,29 @@
             <Button
                 android:id="@+id/btn_marker_abort"
                 style="@style/LoginButton"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/add_marker_seperator_3"
+                android:layout_toStartOf="@+id/add_marker_seperator_3"
+                android:background="#00000000"
+                android:text="@string/abort_btn_text" />
+
+            <View
+                android:id="@+id/add_marker_seperator_3"
+                android:layout_width="2dp"
+                android:layout_height="fill_parent"
                 android:layout_toLeftOf="@+id/btn_marker_submit"
                 android:layout_toStartOf="@+id/btn_marker_submit"
-                android:background="#FF0000"
-                android:text="@string/abort_btn_text" />
+                android:background="@drawable/seperator_horizontal" />
 
             <Button
                 android:id="@+id/btn_marker_submit"
                 style="@style/LoginButton"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:background="#00FF00"
+                android:background="#00000000"
                 android:text="@string/post_btn_text" />
 
         </RelativeLayout>

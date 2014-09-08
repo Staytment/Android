@@ -66,11 +66,11 @@ public class MultiPoint extends Geometry {
         return this.mPositionList.getPositions();
     }
 
-    public void setPositions(JSONArray positions) {
+    public void setPositions(List<Position> positions) {
         this.mPositionList.setPositions(positions);
     }
 
-    public void setPositions(List<Position> positions) {
+    public void setPositions(JSONArray positions) {
         this.mPositionList.setPositions(positions);
     }
 

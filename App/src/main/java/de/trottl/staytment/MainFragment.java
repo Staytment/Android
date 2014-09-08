@@ -67,29 +67,7 @@ public class MainFragment extends Fragment {
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) getActivity().findViewById(R.id.left_drawer);
 
-        addMarkerBtn = (Button) view.findViewById(R.id.marker_add);
-        if (addMarkerBtn != null) {
-            addMarkerBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (getActivity().findViewById(R.id.overlay_add_marker).getVisibility() == View.GONE) {
-                        getActivity().findViewById(R.id.overlay_add_marker).setVisibility(View.VISIBLE);
-                    } else {
-                        getActivity().findViewById(R.id.overlay_add_marker).setVisibility(View.GONE);
-                    }
-                }
-            });
-        }
-
-        openNavDrawBtn = (Button) view.findViewById(R.id.nav_drawer_open);
-        if (openNavDrawBtn != null) {
-            openNavDrawBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mDrawerLayout.openDrawer(mDrawerList);
-                }
-            });
-        }
+        addUIHandler();
 
         return view;
     }
@@ -301,5 +279,34 @@ public class MainFragment extends Fragment {
                 };
 
         VolleyController.getInstance().addToRequestQueue(jsonObjectRequest, TAG);
+    }
+
+    private void addUIHandler() {
+
+        addMarkerBtn = (Button) view.findViewById(R.id.marker_add);
+        if (addMarkerBtn != null) {
+            addMarkerBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (getActivity().findViewById(R.id.overlay_add_marker).getVisibility() == View.GONE) {
+                        getActivity().findViewById(R.id.overlay_add_marker).setVisibility(View.VISIBLE);
+                    } else {
+                        getActivity().findViewById(R.id.overlay_add_marker).setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
+
+        openNavDrawBtn = (Button) view.findViewById(R.id.nav_drawer_open);
+        if (openNavDrawBtn != null) {
+            openNavDrawBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mDrawerLayout.openDrawer(mDrawerList);
+                }
+            });
+        }
+
+
     }
 }
