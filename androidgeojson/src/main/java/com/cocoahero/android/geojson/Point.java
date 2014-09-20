@@ -68,16 +68,16 @@ public class Point extends Geometry {
         return this.mPosition;
     }
 
+    public void setPosition(Position position) {
+        this.mPosition = position;
+    }
+
     public void setPosition(JSONArray position) {
         if (position != null) {
             this.mPosition = new Position(position);
         } else {
             this.mPosition = null;
         }
-    }
-
-    public void setPosition(Position position) {
-        this.mPosition = position;
     }
 
     @Override

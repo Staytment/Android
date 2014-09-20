@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -115,6 +117,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initMapEventHandler() {
+        /*
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -123,7 +126,7 @@ public class MainFragment extends Fragment {
                 }
             }
         });
-
+        */
         gMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
@@ -285,16 +288,60 @@ public class MainFragment extends Fragment {
 
         addMarkerBtn = (Button) view.findViewById(R.id.marker_add);
         if (addMarkerBtn != null) {
+
+            final TextView txt_longitude = (TextView) view.findViewById(R.id.add_marker_longitude_txt);
+            final TextView txt_latitude = (TextView) view.findViewById(R.id.add_marker_latitude_txt);
+            final TextView txt_username = (TextView) view.findViewById(R.id.add_marker_username_txt);
+            final EditText txt_message = (EditText) view.findViewById(R.id.add_marker_text_edit);
+
             addMarkerBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (getActivity().findViewById(R.id.overlay_add_marker).getVisibility() == View.GONE) {
+                        if (txt_username != null) {
+                            txt_username.setText(String.format(getString(R.string.add_marker_username_txt), shPref.getString("Name", null)));
+                        }
+                        if (txt_latitude != null && gMap != null) {
+                            txt_latitude.setText(String.format(getString(R.string.add_marker_latitude_txt), gMap.getMyLocation().getLatitude()));
+                        }
+                        if (txt_longitude != null && gMap != null) {
+                            txt_longitude.setText(String.format(getString(R.string.add_marker_longitude_txt), gMap.getMyLocation().getLongitude()));
+                        }
                         getActivity().findViewById(R.id.overlay_add_marker).setVisibility(View.VISIBLE);
                     } else {
                         getActivity().findViewById(R.id.overlay_add_marker).setVisibility(View.GONE);
                     }
                 }
             });
+
+            Button btn_addMarkerSubmit = (Button) view.findViewById(R.id.btn_marker_submit);
+            Button btn_abortMarkerSubmit = (Button) view.findViewById(R.id.btn_marker_abort);
+
+
+            if (btn_addMarkerSubmit != null) {
+                btn_addMarkerSubmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        LatLng latLng = new LatLng(gMap.getMyLocation().getLatitude(), gMap.getMyLocation().getLongitude());
+                        String uName = shPref.getString("Name", null);
+                        if (gMap.getMyLocation() != null && uName != null && txt_message != null) {
+                            addMarker(latLng, uName, txt_message.getText().toString());
+                        } else {
+                            CustomToast cToast = new CustomToast(getActivity(), "Error while posting");
+                            cToast.show();
+                        }
+                    }
+                });
+            }
+
+            if (btn_abortMarkerSubmit != null) {
+                btn_abortMarkerSubmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getActivity().findViewById(R.id.overlay_add_marker).setVisibility(View.GONE);
+                    }
+                });
+            }
         }
 
         openNavDrawBtn = (Button) view.findViewById(R.id.nav_drawer_open);
