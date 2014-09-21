@@ -247,7 +247,6 @@ public class MainFragment extends Fragment {
      * @param message
      */
     public void addMarker(final LatLng latLng, final String userName, final String message) {
-        //TODO implement custom marker...
         final String TAG = "post_marker";
         String apiKey = shPref.getString("Apikey", null);
         String url = "http://api.staytment.com:80/posts/?api_key=%s";
@@ -271,12 +270,17 @@ public class MainFragment extends Fragment {
                             @Override
                             public void onResponse(JSONObject response) {
                                 gMap.addMarker(new MarkerOptions().title(userName).snippet(message).position(latLng));
+                                getActivity().findViewById(R.id.overlay_add_marker).setVisibility(View.GONE);
+                                CustomToast cToast = new CustomToast(getActivity(), getString(R.string.add_marker_post_successful));
+                                cToast.show();
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 VolleyLog.d("exception:", error.getMessage());
+                                CustomToast cToast = new CustomToast(getActivity(), getString(R.string.add_marker_post_error));
+                                cToast.show();
                             }
                         }) {
                 };

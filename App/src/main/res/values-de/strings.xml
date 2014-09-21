@@ -42,5 +42,7 @@
     <string name="add_marker_title_txt">Titel:</string>
     <string name="add_marker_username_txt">Benutzername: %s</string>
     <string name="post_btn_text">Senden</string>
+    <string name="add_marker_post_successful">Post erfolgreich</string>
+    <string name="add_marker_post_error">Fehler beim Posten</string>
 
 </resources>

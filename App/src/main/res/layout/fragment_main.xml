@@ -16,7 +16,7 @@
             style="style=@style/LoginButton"
             android:layout_width="60dp"
             android:layout_height="fill_parent"
-            android:background="#123456"
+            android:background="#00123456"
             android:text="@string/open_nav_drawer_btn"
             android:textColor="#FFF" />
 
