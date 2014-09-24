@@ -67,6 +67,13 @@ public class MultiLineString extends Geometry {
         return this.mLineStrings;
     }
 
+    public void setLineStrings(List<LineString> lineStrings) {
+        this.mLineStrings.clear();
+        if (lineStrings != null) {
+            this.mLineStrings.addAll(lineStrings);
+        }
+    }
+
     public void setLineStrings(JSONArray lineStrings) {
         this.mLineStrings.clear();
         if (lineStrings != null) {
@@ -76,13 +83,6 @@ public class MultiLineString extends Geometry {
                     this.mLineStrings.add(new LineString(lineJSON));
                 }
             }
-        }
-    }
-
-    public void setLineStrings(List<LineString> lineStrings) {
-        this.mLineStrings.clear();
-        if (lineStrings != null) {
-            this.mLineStrings.addAll(lineStrings);
         }
     }
 

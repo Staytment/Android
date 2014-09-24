@@ -74,6 +74,18 @@ public class PositionList implements Parcelable {
         return this.mPositions;
     }
 
+    public void setPositions(JSONArray positions) {
+        this.mPositions.clear();
+        if (positions != null) {
+            for (int i = 0; i < positions.length(); i++) {
+                JSONArray position = positions.optJSONArray(i);
+                if (position != null) {
+                    this.mPositions.add(new Position(position));
+                }
+            }
+        }
+    }
+
     public void setPositions(PositionList positions) {
         this.mPositions.clear();
         if (positions != null) {
@@ -85,18 +97,6 @@ public class PositionList implements Parcelable {
         this.mPositions.clear();
         if (positions != null) {
             this.mPositions.addAll(positions);
-        }
-    }
-
-    public void setPositions(JSONArray positions) {
-        this.mPositions.clear();
-        if (positions != null) {
-            for (int i = 0; i < positions.length(); i++) {
-                JSONArray position = positions.optJSONArray(i);
-                if (position != null) {
-                    this.mPositions.add(new Position(position));
-                }
-            }
         }
     }
 

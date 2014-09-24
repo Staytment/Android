@@ -3,7 +3,6 @@ package de.trottl.staytment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -45,11 +44,10 @@ public class MainFragment extends Fragment {
 
     SharedPreferences shPref_settings, shPref;
     List<postMarker> listMarker;
-    HashMap<postMarker, Boolean> markerList;
     private GoogleMap gMap;
-    private Location myLocation;
+    //private Location myLocation;
     private View view;
-    private float currentCameraZoomLevel;
+    //private float currentCameraZoomLevel;
     private LatLng cameraLatLang;
     private Button addMarkerBtn, openNavDrawBtn;
     private DrawerLayout mDrawerLayout;
@@ -64,7 +62,6 @@ public class MainFragment extends Fragment {
         shPref_settings = getActivity().getSharedPreferences("Staytment_Settings", Context.MODE_PRIVATE);
         shPref = getActivity().getSharedPreferences("Staytment", Context.MODE_PRIVATE);
         listMarker = new ArrayList<postMarker>();
-        markerList = new HashMap<postMarker, Boolean>();
 
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) getActivity().findViewById(R.id.left_drawer);
